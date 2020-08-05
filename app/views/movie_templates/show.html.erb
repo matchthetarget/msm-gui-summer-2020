@@ -2,8 +2,12 @@
   Movie #<%= @the_movie.id %> details
 </h1>
 
-<a href="/movies" class="btn btn-block btn-outline-secondary">
+<a href="/movies">
   Go back
+</a>
+
+<a href="/delete_movie/<%= @the_movie.id %>">
+  Delete movie
 </a>
 
 <hr>
@@ -48,7 +52,51 @@
     Director
   </dt>
   <dd>
-    <%= @the_movie.director.name %>
+    <a href="/directors/<%= @the_movie.director.id %>">
+      <%= @the_movie.director.name %>
+    </a>
+  </dd>
+
+  <dt>
+    Cast
+  </dt>
+  <dd>
+    <ul>
+      <% Character.where({ :movie_id => @the_movie.id }).each do |a_character| %>
+        <li>
+          <a href="/actors/<%= a_character.actor_id %>">
+            <%= Actor.where({ :id => a_character.actor_id }).at(0).name %>
+          </a>
+          (<%= a_character.name %>)
+        </li>
+      <% end %>
+       <p>Add a cast member:</p>
+
+        <form action="/insert_character">
+          <div>
+            <label for="actor_box">Actor</label>
+            <!-- <input id="actor_box" name="query_actor_id" type="text"> -->
+
+            <select id="actor_box" name="query_actor_id">
+              <% Actor.all.each do |an_actor| %>
+                <option value="<%= an_actor.id %>">
+                  <%= an_actor.name %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+
+          <label for="movie_box">Movie ID</label>
+          <input id="movie_box" name="query_movie_id" value="<%= @the_movie.id %>">
+
+          <div>
+            <label for="character_box">Character</label>
+            <input id="character_box" name="query_name" type="text">
+          </div>
+
+          <button>Add cast member</button>
+        </form>
+    </ul>
   </dd>
 
   <dt>
@@ -67,3 +115,67 @@
 </dl>
 
 <hr>
+
+<h2>
+  Edit <%= @the_movie.title %>
+</h2>
+
+<form action="/modify_movie/<%= @the_movie.id %>">
+
+  <div>
+    <label for="title_box">
+      Title
+    </label>
+
+    <input type="text" id="title_box" name="query_title" value="<%= @the_movie.title%>">
+  </div>
+
+  <div>
+    <label for="description_textarea">
+      Description
+    </label>
+
+    <textarea id="description_textarea" name="query_description" rows="3"><%= @the_movie.description %></textarea>
+  </div>
+
+  <div>
+    <label for="duration_box">
+      Duration
+    </label>
+
+    <input type="text" id="duration_box" name="query_duration" value="<%= @the_movie.duration %>">
+  </div>
+
+  <div>
+    <label for="image_box">
+      Image
+    </label>
+
+    <input id="image_box" name="query_image" value="<%= @the_movie.image %>">
+  </div>
+
+  <div>
+    <label for="year_box">
+      Year
+    </label>
+
+    <input type="text" id="year_box" name="query_year" value="2012">
+  </div>
+
+  <div>
+    <label for="director_id_box">
+      Director
+    </label>
+    <select id="director_id_box" name="query_director_id">
+        <% Director.all.each do |director| %>
+          <option value="<%= director.id %>" <%= "selected" if director == @the_movie.director %>>
+            <%= director.name %>
+          </option>
+        <% end %>
+    </select>
+  </div>
+
+  <button>
+    Update movie
+  </button>
+</form>

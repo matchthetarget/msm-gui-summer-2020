@@ -2,8 +2,12 @@
   Actor #<%= @the_actor.id %> details
 </h1>
 
-<a href="/actors" class="btn btn-block btn-outline-secondary">
+<a href="/actors">
   Go back
+</a>
+
+<a href="/delete_actor/<%= @the_actor.id %>">
+  Delete actor
 </a>
 
 <hr>
@@ -104,3 +108,70 @@
     </tr>
   <% end %>
 </table>
+  
+<h3>Add to Filmography</h3>
+<form action="/insert_character">
+  <div>
+    <label for="movie_box">Movie</label>
+    <!-- <input id="movie_box" name="query_movie_id" type="text"> -->
+
+    <select id="movie_box" name="query_movie_id">
+      <% Movie.all.each do |a_movie| %>
+        <option value="<%= a_movie.id %>">
+          <%= a_movie.title %>
+        </option>
+      <% end %>
+    </select>
+  </div>
+
+  <label for="actor_box">Actor ID</label>
+  <input id="actor_box" name="query_actor_id" value="<%= @the_actor.id %>">
+
+  <div>
+    <label for="character_box">Character</label>
+    <input id="character_box" name="query_name" placeholder="Woman in suit" type="text">
+  </div>
+
+  <button>Add character</button>
+</form>
+
+<h3>Edit Actor</h3>
+<form action="/modify_actor/<%= @the_actor.id %>">
+  <div>
+    <label for="name_box">
+      Name
+    </label>
+
+    <input placeholder="Juan Perez" value="<%= @the_actor.name %>" type="text" id="name_box" name="query_name">
+  </div>
+
+  <div>
+    <label for="dob_box">
+      DOB
+    </label>
+  
+    <input placeholder="2096-01-19" value="<%= @the_actor.dob %>" type="text" id="dob_box" name="query_dob">
+  </div>
+
+  <div>
+    <label for="bio_box">
+      Bio
+    </label>
+
+    <textarea placeholder="long bio..." id="bio_box" name="query_bio" rows="3"><%= @the_actor.bio %></textarea>
+  </div>
+
+  <div>
+    <label for="image_box">
+      Image
+    </label>
+
+    <input placeholder="Image URL" id="image_box" value="<%= @the_actor.image %>" name="query_image">
+  </div>
+
+
+  <button>
+    Update actor
+  </button>
+</form>
+

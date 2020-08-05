@@ -2,8 +2,11 @@
   Director #<%= @the_director.id %> details
 </h1>
 
-<a href="/directors" class="btn btn-block btn-outline-secondary">
+<a href="/directors">
   Go back
+</a>
+<a href="/delete_director/<%= @the_director.id %>">
+  Delete director
 </a>
 
 <hr>
@@ -112,3 +115,102 @@
   </tr>
   <% end %>
 </table>
+
+<h2>
+  Add to Filmography
+</h2>
+<form action="/insert_movie">
+  <div>
+    <label for="title_box">
+      Title
+    </label>
+
+    <input placeholder="The Great Gatsby" type="text" id="title_box" name="query_title">
+  </div>
+
+  <div>
+    <label for="year_box">
+      Year
+    </label>
+  
+    <input placeholder="2096" type="text" id="year_box" name="query_year">
+  </div>
+
+  <div>
+    <label for="description_box">
+      Description
+    </label>
+
+    <textarea placeholder="long description..." id="description_box" name="query_description" rows="3"></textarea>
+  </div>
+
+  <div>
+    <label for="duration_box">
+      Duration
+    </label>
+
+    <input placeholder="120" type="text" id="duration_box" name="query_duration">
+  </div>
+
+  <div>
+    <label for="image_box">
+      Image
+    </label>
+
+    <input placeholder="Image URL" id="image_box" name="query_image"></textarea>
+  </div>
+
+  <div>
+    <label for="director_id_box">
+      Director ID
+    </label>
+
+    <input id="director_id_box" name="query_director_id" value="<%= @the_director.id %>">
+  </div>
+
+  <button>
+    Add movie
+  </button>
+</form>
+
+<hr>
+<h2>Edit <%= @the_director.name %></h2>
+
+<form action="/modify_director/<%= @the_director.id %>">
+  <div>
+    <label for="name_box">
+      Name
+    </label>
+
+    <input placeholder="Juan Perez" type="text" id="name_box" name="query_name" value="<%= @the_director.name %>">
+  </div>
+
+  <div>
+    <label for="dob_box">
+      DOB
+    </label>
+  
+    <input placeholder="2096" type="text" id="dob_box" name="query_dob" value="<%= @the_director.dob %>">
+  </div>
+
+  <div>
+    <label for="bio_box">
+      Bio
+    </label>
+
+    <textarea placeholder="long bio..." id="bio_box" name="query_bio" rows="3"><%= @the_director.bio %></textarea>
+  </div>
+
+  <div>
+    <label for="image_box">
+      Image
+    </label>
+
+    <input placeholder="Image URL" id="image_box" name="query_image" value="<%= @the_director.image %>">
+  </div>
+
+
+  <button>
+    Update director
+  </button>
+</form>
