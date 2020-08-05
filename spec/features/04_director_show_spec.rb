@@ -112,3 +112,37 @@ describe "/directors/[DIRECTOR ID]" do
 
   end
 end
+
+describe "/directors/[DIRECTOR ID]" do
+  it "has a link with text 'Delete director'", :points => 1 do
+    director = Director.new
+    director.name = "Beets Witherspoon"
+    director.bio = "..."
+    director.dob = "1976-04-13"
+    director.image = "image.jpg"
+    director.save
+
+    visit "/directors/#{director.id}"
+
+    expect(page).to have_tag("a", :text => /Delete director/i)
+  end
+end
+
+describe "/directors/[DIRECTOR ID]" do
+  it "has a 'Delete director' link that removes the director record from the database", :points => 1 do
+    director = Director.new
+    director.name = "Beets Witherspoon"
+    director.bio = "..."
+    director.dob = "1976-04-13"
+    director.image = "image.jpg"
+    director.save
+
+    old_directors_count = Director.all.count
+
+    visit "/directors/#{director.id}"
+
+    find("a", :text => /Delete director/i ).click
+
+    expect(old_directors_count). to be > Director.all.count
+  end
+end

@@ -226,3 +226,58 @@ describe "/movies/[MOVIE ID]" do
 
   end
 end
+
+
+describe "/movies/[MOVIE ID]" do
+  it "has a link with text 'Delete movie'", :points => 1 do
+    director = Director.new
+    director.name = "Beets Witherspoon"
+    director.bio = "..."
+    director.dob = "1976-04-13"
+    director.image = "image.jpg"
+    director.save
+
+    movie = Movie.new
+    movie.title = "The 22nd Pilot"
+    movie.duration = 120
+    movie.description = "Prepare to get turgled."
+    movie.year = 2022
+    movie.image = "pilot.png"
+    movie.director_id = director.id
+    movie.save
+
+    old_movies_count = Movie.all.count
+
+    visit "/movies/#{movie.id}"
+
+    expect(page).to have_tag("a", :text => /Delete movie/i)
+  end
+end
+
+describe "/movies/[MOVIE ID]" do
+  it "has a 'Delete movie' link that removes the movie record from the database", :points => 1 do
+    director = Director.new
+    director.name = "Beets Witherspoon"
+    director.bio = "..."
+    director.dob = "1976-04-13"
+    director.image = "image.jpg"
+    director.save
+
+    movie = Movie.new
+    movie.title = "The 22nd Pilot"
+    movie.duration = 120
+    movie.description = "Prepare to get turgled."
+    movie.year = 2022
+    movie.image = "pilot.png"
+    movie.director_id = director.id
+    movie.save
+
+    old_movies_count = Movie.all.count
+
+    visit "/movies/#{movie.id}"
+
+    find("a", :text => /Delete movie/i ).click
+
+    expect(old_movies_count). to be > Movie.all.count
+  end
+end

@@ -41,7 +41,7 @@ class DirectorsController < ApplicationController
     redirect_to("/directors/#{the_id}")
   end
 
-  def delete
+  def destroy
     the_id = params.fetch("path_id")
 
     matching_directors = Director.where({ :id => the_id })

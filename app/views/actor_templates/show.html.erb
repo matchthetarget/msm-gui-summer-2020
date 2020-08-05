@@ -113,15 +113,8 @@
 <form action="/insert_character">
   <div>
     <label for="movie_box">Movie</label>
-    <!-- <input id="movie_box" name="query_movie_id" type="text"> -->
+    <input id="movie_box" name="query_movie_id" type="text"> 
 
-    <select id="movie_box" name="query_movie_id">
-      <% Movie.all.each do |a_movie| %>
-        <option value="<%= a_movie.id %>">
-          <%= a_movie.title %>
-        </option>
-      <% end %>
-    </select>
   </div>
 
   <label for="actor_box">Actor ID</label>

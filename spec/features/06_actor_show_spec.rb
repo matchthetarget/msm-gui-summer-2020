@@ -19,14 +19,14 @@ end
 
 describe "/actors/[ACTOR ID]" do
   it "has Actor name prepopulated in an input element", :points => 1, hint: h("value_attribute") do
-    director = Actor.new
-    director.name = "Beets Witherspoon"
-    director.bio = "..."
-    director.dob = "1976-04-13"
-    director.image = "image.jpg"
-    director.save
+    actor = Actor.new
+    actor.name = "Beets Witherspoon"
+    actor.bio = "..."
+    actor.dob = "1976-04-13"
+    actor.image = "image.jpg"
+    actor.save
 
-    visit "/actors/#{director.id}"
+    visit "/actors/#{actor.id}"
 
     expect(page).to have_css("input[value='Beets Witherspoon']")
   end
@@ -34,14 +34,14 @@ end
 
 describe "/actors/[ACTOR ID]" do
   it "has Actor dob prepopulated in an input element", :points => 1, hint: h("value_attribute") do
-    director = Actor.new
-    director.name = "Beets Witherspoon"
-    director.bio = "..."
-    director.dob = "1976-04-13"
-    director.image = "image.jpg"
-    director.save
+    actor = Actor.new
+    actor.name = "Beets Witherspoon"
+    actor.bio = "..."
+    actor.dob = "1976-04-13"
+    actor.image = "image.jpg"
+    actor.save
 
-    visit "/actors/#{director.id}"
+    visit "/actors/#{actor.id}"
 
     expect(page).to have_css("input[value='1976-04-13']")
   end
@@ -49,29 +49,29 @@ end
 
 describe "/actors/[ACTOR ID]" do
   it "has Actor image prepopulated in an input element", :points => 1, hint: h("value_attribute") do
-    director = Actor.new
-    director.name = "Beets Witherspoon"
-    director.bio = "..."
-    director.dob = "1976-04-13"
-    director.image = "director-image.jpg"
-    director.save
+    actor = Actor.new
+    actor.name = "Beets Witherspoon"
+    actor.bio = "..."
+    actor.dob = "1976-04-13"
+    actor.image = "actor-image.jpg"
+    actor.save
 
-    visit "/actors/#{director.id}"
+    visit "/actors/#{actor.id}"
 
-    expect(page).to have_css("input[value='director-image.jpg']")
+    expect(page).to have_css("input[value='actor-image.jpg']")
   end
 end
 
 describe "/actors/[ACTOR ID]" do
   it "has Actor bio prepopulated in a textarea element", :points => 1 do
-    director = Actor.new
-    director.name = "Beets Witherspoon"
-    director.bio = "the person really loves film"
-    director.dob = "1976-04-13"
-    director.image = "image.jpg"
-    director.save
+    actor = Actor.new
+    actor.name = "Beets Witherspoon"
+    actor.bio = "the person really loves film"
+    actor.dob = "1976-04-13"
+    actor.image = "image.jpg"
+    actor.save
 
-    visit "/actors/#{director.id}"
+    visit "/actors/#{actor.id}"
 
     first_textarea = find("textarea")
     expect(first_textarea.value).to match(/the person really loves film/),
@@ -82,14 +82,14 @@ end
 describe "/actors/[ACTOR ID]" do
   it "has a form that updates an existing actor record.", :points => 1 do
     
-    director = Actor.new
-    director.name = "Guy Fieri"
-    director.dob = "1970-05-18"
-    director.bio = "Just a guy"
-    director.image = "chicken.png"
-    director.save
+    actor = Actor.new
+    actor.name = "Guy Fieri"
+    actor.dob = "1970-05-18"
+    actor.bio = "Just a guy"
+    actor.image = "chicken.png"
+    actor.save
 
-    visit "/actors/#{director.id}"
+    visit "/actors/#{actor.id}"
     
     fill_in "Name", with: "Sasha Braus"
     fill_in "DOB", with: "2034-12-13"
@@ -98,16 +98,98 @@ describe "/actors/[ACTOR ID]" do
 
     click_on "Update actor"
 
-    updated_director = Actor.where({ :id => director.id }).at(0)
+    updated_actor = Actor.where({ :id => actor.id }).at(0)
 
-    expect(updated_director.name).to eq("Sasha Braus"),
-      "Expected director name to update when the form submitted but didn't."
-    expect(updated_director.dob.to_s).to eq("2034-12-13"),
-      "Expected director dob to update when the form submitted but didn't."
-    expect(updated_director.bio).to eq("holy cow"),
-      "Expected director bio to update when the form submitted but didn't."
-    expect(updated_director.image).to eq("profile.jpg"),
-      "Expected director image to update when the form submitted but didn't."
+    expect(updated_actor.name).to eq("Sasha Braus"),
+      "Expected actor name to update when the form submitted but didn't."
+    expect(updated_actor.dob.to_s).to eq("2034-12-13"),
+      "Expected actor dob to update when the form submitted but didn't."
+    expect(updated_actor.bio).to eq("holy cow"),
+      "Expected actor bio to update when the form submitted but didn't."
+    expect(updated_actor.image).to eq("profile.jpg"),
+      "Expected actor image to update when the form submitted but didn't."
+
+
+  end
+end
+
+
+describe "/actors/[ACTOR ID]" do
+  it "has a link with text 'Delete actor'", :points => 1 do
+    actor = Actor.new
+    actor.name = "Camera Ferara"
+    actor.bio = "..."
+    actor.dob = "1996-04-13"
+    actor.image = "image.jpg"
+    actor.save
+
+    visit "/actors/#{actor.id}"
+
+    expect(page).to have_tag("a", :text => /Delete actor/i)
+  end
+end
+
+describe "/actors/[ACTOR ID]" do
+  it "has a 'Delete actor' link that removes the actor record from the database", :points => 1 do
+    actor = Actor.new
+    actor.name = "Beets Withoutherspoon"
+    actor.bio = "..."
+    actor.dob = "1976-04-13"
+    actor.image = "image.jpg"
+    actor.save
+
+    old_actors_count = Actor.all.count
+
+    visit "/actors/#{actor.id}"
+
+    find("a", :text => /Delete actor/i ).click
+
+    expect(old_actors_count). to be > Actor.all.count
+  end
+end
+
+describe "/actors/[ACTOR ID]" do
+  it "has a form that adds a character record.", :points => 1 do
+    
+    actor = Actor.new
+    actor.name = "Guy Fieri"
+    actor.dob = "1970-05-18"
+    actor.bio = "Just a guy"
+    actor.image = "chicken.png"
+    actor.save
+
+    director = Director.new
+    director.name = "Beets Witherspoon"
+    director.bio = "..."
+    director.dob = "1976-04-13"
+    director.image = "image.jpg"
+    director.save
+
+    movie = Movie.new
+    movie.title = "The 22nd Pilot"
+    movie.duration = 120
+    movie.description = "Prepare to get turgled."
+    movie.year = 2022
+    movie.image = "pilot.png"
+    movie.director_id = director.id
+    movie.save
+
+    visit "/actors/#{actor.id}"
+    
+    fill_in "Character", with: "1st Pilot"
+    fill_in "Movie", with: movie.id
+    fill_in "Actor ID", with: actor.id
+
+    click_on "Add character"
+
+    new_character = Character.where({ :actor_id => actor.id, :movie_id => movie.id  }).at(0)
+
+    expect(new_character.name).to eq("1st Pilot"),
+      "Expected new character name to save when the form submitted but didn't."
+    expect(new_character.movie_id).to eq(movie.id),
+      "Expected new character dob to save when the form submitted but didn't."
+    expect(new_character.actor_id).to eq(actor.id),
+      "Expected new character bio to save when the form submitted but didn't."
 
 
   end
