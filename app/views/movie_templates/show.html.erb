@@ -159,13 +159,14 @@
       Year
     </label>
 
-    <input type="text" id="year_box" name="query_year" value="2012">
+    <input type="text" id="year_box" name="query_year" value="<%= @the_movie.year %>">
   </div>
 
   <div>
     <label for="director_id_box">
       Director
     </label>
+    <input id="director_id_box" name="query_director_id" value="<%= @the_movie.director_id %>">
     <select id="director_id_box" name="query_director_id">
         <% Director.all.each do |director| %>
           <option value="<%= director.id %>" <%= "selected" if director == @the_movie.director %>>
