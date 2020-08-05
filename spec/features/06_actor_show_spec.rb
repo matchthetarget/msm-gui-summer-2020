@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "/actors/[ACTOR ID]" do
-  it "has form to create a edit/update actor record", points: 1 do
+  it "has form to  edit/update actor record", points: 1 do
     
     john_boyega = Actor.new
     john_boyega.name = "John Boyega"
@@ -145,6 +145,165 @@ describe "/actors/[ACTOR ID]" do
     find("a", :text => /Delete actor/i ).click
 
     expect(old_actors_count). to be > Actor.all.count
+  end
+end
+
+describe "/actors/[ACTOR ID]" do
+  it "has at least two forms to update an actor record and create a character record", points: 1 do
+    
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+
+    visit "/actors/#{john_boyega.id}"
+
+    expect(page).to have_tag("form", :min => 2),
+      "Expect '/actors/[ACTOR ID]' page to have minimum of two <form> tags, but couldn't find two."
+  end
+end
+
+
+describe "/actors/[ACTOR ID]" do
+  it "has a <label> with the text 'Character'", points: 1 do
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+
+    visit "/actors/#{john_boyega.id}"
+
+    expect(page).to have_tag("label", :text => /Character/i, :count => 1),
+      "Expected page to have exactly 1 <label> tag with text 'Character', but didn't find one."
+  end
+end
+
+describe "/actors/[ACTOR ID]" do
+  it "has a label 'Character' with a matching input tag.", :points => 1 do
+    
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+
+    visit "/actors/#{john_boyega.id}"
+    
+    name_label = find("label", :text => /Character/i)
+    for_attribute = name_label[:for]
+    
+    if for_attribute.nil?
+      expect(for_attribute).to_not be_empty,
+        "Expected label's for attribute to be set to a non empty value, was '#{for_attribute}' instead."
+    else
+      all_inputs = all("input")
+  
+      all_input_ids = all_inputs.map { |input| input[:id] }
+  
+      expect(all_input_ids.count(for_attribute)).to eq(1),
+        "Expected label's for attribute(#{for_attribute}) to match only 1 of the ids of an <input> tag (#{all_input_ids}), but found 0 or more than 1."  
+    end
+
+  end
+end
+
+describe "/actors/[ACTOR ID]" do
+  it "has a <label> with the text 'Movie'", points: 1 do
+    
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+
+    visit "/actors/#{john_boyega.id}"
+
+    expect(page).to have_tag("label", :text => /Movie/i, :count => 1),
+      "Expected page to have exactly 1 <label> tag with text 'Movie', but didn't find one."
+  end
+end
+
+
+describe "/actors/[ACTOR ID]" do
+  it "has a label 'Movie' with a matching input tag.", :points => 1 do
+    
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+
+    visit "/actors/#{john_boyega.id}"
+    
+    year_label = find("label", :text => /Movie/i)
+    for_attribute = year_label[:for]
+    
+    if for_attribute.nil?
+      expect(for_attribute).to_not be_empty,
+        "Expected label's for attribute to be set to a non empty value, was '#{for_attribute}' instead."
+    else
+      all_inputs = all("input")
+  
+      all_input_ids = all_inputs.map { |input| input[:id] }
+  
+      expect(all_input_ids.count(for_attribute)).to eq(1),
+        "Expected label's for attribute(#{for_attribute}) to match only 1 of the ids of an <input> tag (#{all_input_ids}), but found 0 or more than 1."  
+    end
+
+  end
+end
+
+describe "/actors/[ACTOR ID]" do
+  it "has a <label> with the text 'Actor ID'", points: 1 do
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+
+    visit "/actors/#{john_boyega.id}"
+
+    expect(page).to have_tag("label", :text => /Actor ID/i, :count => 1),
+      "Expected page to have exactly 1 <label> tag with text 'Actor ID', but didn't find one."
+  end
+end
+
+
+describe "/actors/[ACTOR ID]" do
+  it "has a label 'Actor ID' with a matching input tag.", :points => 1 do
+    
+    john_boyega = Actor.new
+    john_boyega.name = "John Boyega"
+    john_boyega.bio = "..."
+    john_boyega.dob = "1986-03-14"
+    john_boyega.image = "meme.jpg"
+    john_boyega.save
+    
+    visit "/actors/#{john_boyega.id}"
+    
+    year_label = find("label", :text => /Actor ID/i)
+    for_attribute = year_label[:for]
+    
+    if for_attribute.nil?
+      expect(for_attribute).to_not be_empty,
+        "Expected label's for attribute to be set to a non empty value, was '#{for_attribute}' instead."
+    else
+      all_inputs = all("input")
+  
+      all_input_ids = all_inputs.map { |input| input[:id] }
+  
+      expect(all_input_ids.count(for_attribute)).to eq(1),
+        "Expected label's for attribute(#{for_attribute}) to match only 1 of the ids of an <input> tag (#{all_input_ids}), but found 0 or more than 1."  
+    end
+
   end
 end
 

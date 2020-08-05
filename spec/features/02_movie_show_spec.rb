@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "/movies/[MOVIE ID]" do
-  it "has form to create a edit/update movie record", points: 1 do
+  it "has form to edit/update movie record", points: 1 do
     
     carole_danvers = Director.new
     carole_danvers.name = "Carole Danvers"
