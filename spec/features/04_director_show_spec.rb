@@ -73,8 +73,8 @@ describe "/directors/[DIRECTOR ID]" do
 
     visit "/directors/#{director.id}"
 
-    all_textareas_values = all("textarea").map { |textarea| textarea.value }
-    expect(all_textareas.value).to match(/the person really loves film/),
+    first_textarea = find("textarea")
+    expect(first_textarea.value).to match(/the person really loves film/),
       "Couldn't find 'the person really loves film' in the textarea. Hint: Textareas don't use the value attribute like inputs. Try adding the content in-between the opening and closing tag."
   end
 end
@@ -98,11 +98,11 @@ describe "/directors/[DIRECTOR ID]" do
 
     click_on "Update director"
 
-    updated_director = Movie.where({ :id => director.id }).at(0)
+    updated_director = Director.where({ :id => director.id }).at(0)
 
     expect(updated_director.name).to eq("Sasha Braus"),
       "Expected director name to update when the form submitted but didn't."
-    expect(updated_director.dob).to eq("2034-12-13"),
+    expect(updated_director.dob.to_s).to eq("2034-12-13"),
       "Expected director dob to update when the form submitted but didn't."
     expect(updated_director.bio).to eq("holy cow"),
       "Expected director bio to update when the form submitted but didn't."
