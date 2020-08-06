@@ -48,7 +48,7 @@
       Director
     </label>
 
-    <input id="director_id_box" name="query_director_id">
+    <%# <input id="director_id_box" name="query_director_id"> %>
     <select id="director_id_box" name="query_director_id">
         <% Director.all.each do |director| %>
           <option value="<%= director.id %>">

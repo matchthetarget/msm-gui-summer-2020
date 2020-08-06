@@ -166,7 +166,7 @@
     <label for="director_id_box">
       Director
     </label>
-    <input id="director_id_box" name="query_director_id" value="<%= @the_movie.director_id %>">
+    <%# <input id="director_id_box" name="query_director_id" value="<%= @the_movie.director_id %>"> %>
     <select id="director_id_box" name="query_director_id">
         <% Director.all.each do |director| %>
           <option value="<%= director.id %>" <%= "selected" if director == @the_movie.director %>>
